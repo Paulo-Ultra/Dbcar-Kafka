@@ -1,4 +1,4 @@
-package com.example.dbcarkafka;
+package br.com.dbcarkafka;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
