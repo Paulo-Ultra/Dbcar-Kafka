@@ -1,24 +1,22 @@
 package br.com.dbcarkafka.entity;
 
+import br.com.dbcarkafka.enums.StatusManutencao;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDate;
 
-@Entity
-@Document(collection = "manutencao")
-@RequiredArgsConstructor
 @Getter
 @Setter
-public class ManutencaoMongoEntity {
+@RequiredArgsConstructor
+@Document(collection = "manutencao")
+public class ManutencaoEntity {
 
     @Id
-    @Field(name = "id_manutencao")
     private Integer idManutencao;
     
     @Field(name = "placa")
@@ -32,4 +30,7 @@ public class ManutencaoMongoEntity {
     
     @Field(name = "data_manutencao")
     private LocalDate dataManutencao;
+
+    @Field(name = "status_manutencao")
+    private StatusManutencao status;
 }

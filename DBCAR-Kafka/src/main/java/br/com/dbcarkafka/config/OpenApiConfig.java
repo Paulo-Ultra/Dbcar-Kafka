@@ -29,8 +29,8 @@ public class OpenApiConfig {
     public OpenAPI springShopOpenAPI() {
         String securitySchemeName = "bearerAuth";
         return new OpenAPI()
-                .info(new Info().title("DBCar API")
-                        .description("Documentação da API DBCar")
+                .info(new Info().title("DBCar API integrada com Kafka e Schedule")
+                        .description("Documentação e endpoints do projeto DBCar")
                         .version("v1.0.0")
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")))
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
