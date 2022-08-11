@@ -79,9 +79,7 @@ public class ConsumidorService {
 
     public void imprimirMensagem (ManutencaoDTO manutencaoDTO, Integer partition) {
         String data = manutencaoDTO.getDataManutencao().format(formatter);
-        String servico = manutencaoDTO.getServico();
         String placa = manutencaoDTO.getPlacaCarro();
-        Double valor = manutencaoDTO.getValorTotal();
         String id = manutencaoDTO.getIdManutencao();
         log.info("Manutenção n°" + id + ", Data do envio do carro de placa " + placa + " para a manutenção: "
                     + data + ".");
