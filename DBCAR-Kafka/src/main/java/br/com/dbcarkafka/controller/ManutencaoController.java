@@ -29,8 +29,8 @@ public class ManutencaoController {
     }
     
     @GetMapping("/buscar-servicos-placa")
-    public ResponseEntity<List<ManutencaoDTO>> findByPlacaList(@RequestParam String placa) {
-        return new ResponseEntity<>(consumidorService.findByPlacaList(placa), HttpStatus.OK);
+    public ResponseEntity<List<ManutencaoDTO>> listServicosByPlaca(@RequestParam String placa) {
+        return new ResponseEntity<>(consumidorService.listServicosByPlaca(placa), HttpStatus.OK);
     }
     
 }

@@ -56,8 +56,8 @@ public class ConsumidorService {
         }).toList();
     }
     
-    public List<ManutencaoDTO> findByPlacaList (String placa){
-        List<ManutencaoEntity> manutencaoEntities = manutencaoRepository.findByPlacaList(placa);
+    public List<ManutencaoDTO> listServicosByPlaca (String placa){
+        List<ManutencaoEntity> manutencaoEntities = manutencaoRepository.findListServicosByPlaca(placa);
         return manutencaoEntities.stream().map(manutencaoEntity -> {
             ManutencaoDTO manutencaoDTO = objectMapper.convertValue(manutencaoEntity, ManutencaoDTO.class);
             return manutencaoDTO;
@@ -65,10 +65,11 @@ public class ConsumidorService {
     }
     
     public ManutencaoDTO atualizarManutencao(ManutencaoDTO manutencaoDTO, String placa) {
-        ManutencaoEntity manutencaoEntity = manutencaoRepository.findByPlaca(placa);
+        ManutencaoEntity manutencaoEntity = manutencaoRepository.findByPlacaAndStatus(placa, StatusManutencao.PENDENTE);
         manutencaoDTO.setIdManutencao(manutencaoEntity.getIdManutencao());
         manutencaoDTO.setPlacaCarro(manutencaoEntity.getPlacaCarro());
         manutencaoDTO.setStatus(StatusManutencao.CONCLUIDA);
+        manutencaoDTO.setDataManutencao(manutencaoEntity.getDataManutencao());
         ManutencaoEntity manutencaoEntity1 = objectMapper.convertValue(manutencaoDTO, ManutencaoEntity.class);
         manutencaoRepository.save(manutencaoEntity1);
         ManutencaoDTO manutencaoDTO1 = objectMapper.convertValue(manutencaoEntity1, ManutencaoDTO.class);
@@ -82,11 +83,7 @@ public class ConsumidorService {
         String placa = manutencaoDTO.getPlacaCarro();
         Double valor = manutencaoDTO.getValorTotal();
         String id = manutencaoDTO.getIdManutencao();
-        if(partition == 0) {
-            log.info("Manutenção n°" + id + ", Término da manutenção do carro de placa " + placa + ". Data de conclusão do serviço: "
-                    + data + ". Serviço realizado: " + servico + "Valor Total: R$" + valor);
-        }
         log.info("Manutenção n°" + id + ", Data do envio do carro de placa " + placa + " para a manutenção: "
-                + data + ".");
+                    + data + ".");
     }
 }

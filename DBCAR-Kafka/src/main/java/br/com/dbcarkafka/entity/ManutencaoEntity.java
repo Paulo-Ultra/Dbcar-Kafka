@@ -32,6 +32,9 @@ public class ManutencaoEntity {
     @Field(name = "data_manutencao")
     private LocalDate dataManutencao;
 
+    @Field(name = "data_conclusao")
+    private LocalDate dataConclusao;
+
     @Field(name = "status_manutencao")
     private StatusManutencao status;
 }

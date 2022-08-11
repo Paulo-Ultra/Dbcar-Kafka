@@ -16,10 +16,11 @@ public class ManutencaoDTO {
     private String idManutencao;
     @Schema(hidden = true)
     private String placaCarro;
-    
     private String servico;
     private Double valorTotal;
+    @Schema(hidden = true)
     private LocalDate dataManutencao;
+    private LocalDate dataConclusao;
     @Schema(hidden = true)
     private StatusManutencao status;
 }
