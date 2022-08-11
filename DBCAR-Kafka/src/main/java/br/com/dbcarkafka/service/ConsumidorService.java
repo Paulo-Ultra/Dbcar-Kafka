@@ -72,7 +72,7 @@ public class ConsumidorService {
         return manutencaoDTO1;
     }
 
-    @Scheduled(cron = "0 0 9-17 * * MON-FRI")
+    @Scheduled(cron = "0 0 9,17 * * MON-FRI")
     public void listManutencoesPendentes(){
         List<ManutencaoEntity> manutencaoEntities = manutencaoRepository.findByStatus(StatusManutencao.PENDENTE);
         log.info(String.valueOf(manutencaoEntities.stream().toList()));
