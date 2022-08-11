@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.TopicPartition;
 import org.springframework.kafka.support.KafkaHeaders;
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -29,9 +31,7 @@ public class ConsumidorService {
     private final ManutencaoRepository manutencaoRepository;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-    // TODO CONCLUIR O MÉTODO DEPOIS...
-
+    
     @KafkaListener(
             topics = "${kafka.topic}",
             groupId = "manutencao1",
@@ -55,6 +55,25 @@ public class ConsumidorService {
             return manutencaoDTO;
         }).toList();
     }
+    
+    public List<ManutencaoDTO> findByPlacaList (String placa){
+        List<ManutencaoEntity> manutencaoEntities = manutencaoRepository.findByPlacaList(placa);
+        return manutencaoEntities.stream().map(manutencaoEntity -> {
+            ManutencaoDTO manutencaoDTO = objectMapper.convertValue(manutencaoEntity, ManutencaoDTO.class);
+            return manutencaoDTO;
+        }).toList();
+    }
+    
+    public ManutencaoDTO atualizarManutencao(ManutencaoDTO manutencaoDTO, String placa) {
+        ManutencaoEntity manutencaoEntity = manutencaoRepository.findByPlaca(placa);
+        manutencaoDTO.setIdManutencao(manutencaoEntity.getIdManutencao());
+        manutencaoDTO.setPlacaCarro(manutencaoEntity.getPlacaCarro());
+        manutencaoDTO.setStatus(StatusManutencao.CONCLUIDA);
+        ManutencaoEntity manutencaoEntity1 = objectMapper.convertValue(manutencaoDTO, ManutencaoEntity.class);
+        manutencaoRepository.save(manutencaoEntity1);
+        ManutencaoDTO manutencaoDTO1 = objectMapper.convertValue(manutencaoEntity1, ManutencaoDTO.class);
+        return manutencaoDTO1;
+    }
 
 
     public void imprimirMensagem (ManutencaoDTO manutencaoDTO, Integer partition) {
@@ -62,7 +81,7 @@ public class ConsumidorService {
         String servico = manutencaoDTO.getServico();
         String placa = manutencaoDTO.getPlacaCarro();
         Double valor = manutencaoDTO.getValorTotal();
-        Integer id = manutencaoDTO.getIdManutencao();
+        String id = manutencaoDTO.getIdManutencao();
         if(partition == 0) {
             log.info("Manutenção n°" + id + ", Término da manutenção do carro de placa " + placa + ". Data de conclusão do serviço: "
                     + data + ". Serviço realizado: " + servico + "Valor Total: R$" + valor);

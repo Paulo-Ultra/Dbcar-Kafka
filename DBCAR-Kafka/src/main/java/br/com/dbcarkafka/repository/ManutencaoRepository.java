@@ -10,7 +10,12 @@ import java.util.List;
 
 @Repository
 public interface ManutencaoRepository extends MongoRepository<ManutencaoEntity, String> {
-
+    
+    @Query(value = "{ 'placa' : ?0 }")
+    ManutencaoEntity findByPlaca(String placa);
+    
+    @Query(value = "{ 'placa' : ?0 }")
+    List<ManutencaoEntity> findByPlacaList(String placa);
     @Query(value = "{ 'status' : ?0 }")
     List<ManutencaoEntity> findByStatus(StatusManutencao status);
 }

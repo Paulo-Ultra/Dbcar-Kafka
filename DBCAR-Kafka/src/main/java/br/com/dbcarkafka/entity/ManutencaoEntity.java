@@ -18,7 +18,7 @@ import java.time.LocalDate;
 public class ManutencaoEntity {
 
     @Id
-    private Integer idManutencao;
+    private String idManutencao;
     
     @Field(name = "placa")
     private String placaCarro;
