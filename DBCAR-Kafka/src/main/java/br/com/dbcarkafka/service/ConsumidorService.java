@@ -83,7 +83,7 @@ public class ConsumidorService {
         String data = manutencaoDTO.getDataManutencao().format(formatter);
         String placa = manutencaoDTO.getPlacaCarro();
         String id = manutencaoDTO.getIdManutencao();
-        log.info("Manutenção n°" + id + ", Data do envio do carro de placa " + placa + " para a manutenção: "
+        log.info("Uma nova manutenção foi adicionada. Veículo de placa: " + placa + " Data que foi adicionado: "
                     + data + ".");
     }
 }
