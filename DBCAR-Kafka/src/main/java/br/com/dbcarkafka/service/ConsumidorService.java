@@ -14,6 +14,7 @@ import org.springframework.kafka.annotation.TopicPartition;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -63,7 +65,7 @@ public class ConsumidorService {
             return manutencaoDTO;
         }).toList();
     }
-    
+
     public ManutencaoDTO atualizarManutencao(ManutencaoDTO manutencaoDTO, String placa) {
         ManutencaoEntity manutencaoEntity = manutencaoRepository.findByPlacaAndStatus(placa, StatusManutencao.PENDENTE);
         manutencaoDTO.setIdManutencao(manutencaoEntity.getIdManutencao());
@@ -75,6 +77,11 @@ public class ConsumidorService {
         ManutencaoDTO manutencaoDTO1 = objectMapper.convertValue(manutencaoEntity1, ManutencaoDTO.class);
         return manutencaoDTO1;
     }
+    @Scheduled(cron = "0 0 9-17 * * MON-FRI")
+    public void listCarroPendentes(){
+        List<ManutencaoEntity> manutencaoEntities = manutencaoRepository.findByStatus(StatusManutencao.PENDENTE);
+        log.info(String.valueOf(manutencaoEntities.stream().toList()));
+    }
 
 
     public void imprimirMensagem (ManutencaoDTO manutencaoDTO, Integer partition) {
@@ -84,4 +91,6 @@ public class ConsumidorService {
         log.info("Manutenção n°" + id + ", Data do envio do carro de placa " + placa + " para a manutenção: "
                     + data + ".");
     }
+
+
 }

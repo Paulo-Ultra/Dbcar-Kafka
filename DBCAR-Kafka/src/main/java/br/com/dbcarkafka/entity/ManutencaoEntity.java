@@ -37,4 +37,13 @@ public class ManutencaoEntity {
 
     @Field(name = "status_manutencao")
     private StatusManutencao status;
+
+    @Override
+    public String toString() {
+        return "ManutencaoEntity{" +
+                "idManutencao='" + idManutencao + '\'' +
+                ", placaCarro='" + placaCarro + '\'' +
+                ", servico='" + servico + '\'' +
+                ", dataManutencao=" + dataManutencao + '}';
+    }
 }

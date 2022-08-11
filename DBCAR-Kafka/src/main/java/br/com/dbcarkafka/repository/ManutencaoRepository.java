@@ -17,4 +17,7 @@ public interface ManutencaoRepository extends MongoRepository<ManutencaoEntity, 
     List<ManutencaoEntity> findListServicosByPlaca(String placa);
     @Query(value = "{ 'status' : ?0 }")
     List<ManutencaoEntity> findByStatus(StatusManutencao status);
+
+    @Query(value = "{ 'status' : ?0, }")
+    List<ManutencaoEntity> findListByStatus(StatusManutencao status);
 }
