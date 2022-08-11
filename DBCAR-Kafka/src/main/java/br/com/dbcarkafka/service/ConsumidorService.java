@@ -8,7 +8,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.TopicPartition;
 import org.springframework.kafka.support.KafkaHeaders;
@@ -16,13 +15,8 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -46,7 +40,7 @@ public class ConsumidorService {
         ManutencaoEntity manutencaoEntity = objectMapper.convertValue(manutencaoDTO, ManutencaoEntity.class);
         manutencaoRepository.save(manutencaoEntity);
 
-        imprimirMensagem(manutencaoDTO, partition);
+        imprimirMensagem(manutencaoDTO);
 
     }
 
@@ -77,20 +71,19 @@ public class ConsumidorService {
         ManutencaoDTO manutencaoDTO1 = objectMapper.convertValue(manutencaoEntity1, ManutencaoDTO.class);
         return manutencaoDTO1;
     }
+
     @Scheduled(cron = "0 0 9-17 * * MON-FRI")
-    public void listCarroPendentes(){
+    public void listManutencoesPendentes(){
         List<ManutencaoEntity> manutencaoEntities = manutencaoRepository.findByStatus(StatusManutencao.PENDENTE);
         log.info(String.valueOf(manutencaoEntities.stream().toList()));
     }
 
 
-    public void imprimirMensagem (ManutencaoDTO manutencaoDTO, Integer partition) {
+    public void imprimirMensagem (ManutencaoDTO manutencaoDTO) {
         String data = manutencaoDTO.getDataManutencao().format(formatter);
         String placa = manutencaoDTO.getPlacaCarro();
         String id = manutencaoDTO.getIdManutencao();
         log.info("Manutenção n°" + id + ", Data do envio do carro de placa " + placa + " para a manutenção: "
                     + data + ".");
     }
-
-
 }

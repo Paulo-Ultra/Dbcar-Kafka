@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class KafkaConfiguration {
+public class KafkaConsumerConfig {
 
     private static final String EARLIEST = "earliest";
     private static final String LATEST = "latest";
