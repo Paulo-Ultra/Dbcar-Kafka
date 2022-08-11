@@ -4,6 +4,6 @@ import lombok.Getter;
 
 @Getter
 public enum StatusManutencao {
-    CONCLUIDA, // 0
-    PENDENTE; // 1
+    PENDENTE, // 0
+    CONCLUIDA // 1
 }

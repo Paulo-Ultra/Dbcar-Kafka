@@ -1,10 +1,11 @@
 package br.com.dbcarkafka.dto;
 
 import br.com.dbcarkafka.enums.StatusManutencao;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -15,6 +16,6 @@ public class ManutencaoDTO {
     private String placaCarro;
     private String servico;
     private Double valorTotal;
-    private LocalDateTime dataManutencao;
+    private LocalDate dataManutencao;
     private StatusManutencao status;
 }

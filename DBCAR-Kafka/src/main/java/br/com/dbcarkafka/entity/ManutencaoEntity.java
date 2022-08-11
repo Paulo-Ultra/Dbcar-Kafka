@@ -4,10 +4,11 @@ import br.com.dbcarkafka.enums.StatusManutencao;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.persistence.Id;
+
 import java.time.LocalDate;
 
 @Getter
