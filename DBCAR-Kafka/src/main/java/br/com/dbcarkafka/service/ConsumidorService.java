@@ -76,7 +76,7 @@ public class ConsumidorService {
     }
 
     @Scheduled(cron = "0 0 3 * * *")
-    public void listManutencoesPendentes(){
+    public void remocaoManutencoesAntigas(){
         List<ManutencaoEntity> manutencaoEntities = manutencaoRepository.obterDataManutencao(LocalDate.now(), LocalDate.now().minusYears(1));
         manutencaoRepository.deleteAll(manutencaoEntities);
     }
