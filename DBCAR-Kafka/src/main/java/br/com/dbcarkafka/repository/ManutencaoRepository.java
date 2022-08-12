@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -19,7 +20,7 @@ public interface ManutencaoRepository extends MongoRepository<ManutencaoEntity, 
 
     @Query(value = "{ 'status' : ?0 }")
     List<ManutencaoEntity> findByStatus(StatusManutencao status);
-
-    @Query(value = "{ 'status' : ?0 }")
-    List<ManutencaoEntity> findListByStatus(StatusManutencao status);
+    
+    @Query(value = "{'dataConclusao':{ $lt: ?0, $gt: ?1}}")
+    List<ManutencaoEntity> obterDataManutencao(LocalDate menorQue, LocalDate maiorQue);
 }

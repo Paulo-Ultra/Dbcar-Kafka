@@ -15,6 +15,8 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -73,10 +75,10 @@ public class ConsumidorService {
         return manutencaoDTO1;
     }
 
-    @Scheduled(cron = "0 0 9-17 * * MON-FRI")
+    @Scheduled(cron = "0 0 3 * * *")
     public void listManutencoesPendentes(){
-        List<ManutencaoEntity> manutencaoEntities = manutencaoRepository.findByStatus(StatusManutencao.PENDENTE);
-        log.info(String.valueOf(manutencaoEntities.stream().toList()));
+        List<ManutencaoEntity> manutencaoEntities = manutencaoRepository.obterDataManutencao(LocalDate.now(), LocalDate.now().minusYears(1));
+        manutencaoRepository.deleteAll(manutencaoEntities);
     }
 
     public void imprimirMensagem (ManutencaoDTO manutencaoDTO) {
