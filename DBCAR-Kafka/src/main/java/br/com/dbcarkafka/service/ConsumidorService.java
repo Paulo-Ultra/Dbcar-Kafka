@@ -15,6 +15,8 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -24,6 +26,7 @@ import java.util.List;
 public class ConsumidorService {
 
     private final ObjectMapper objectMapper;
+
     private final ManutencaoRepository manutencaoRepository;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -72,17 +75,15 @@ public class ConsumidorService {
         return manutencaoDTO1;
     }
 
-    @Scheduled(cron = "0 0 9,17 * * MON-FRI")
-    public void listManutencoesPendentes(){
-        List<ManutencaoEntity> manutencaoEntities = manutencaoRepository.findByStatus(StatusManutencao.PENDENTE);
-        log.info(String.valueOf(manutencaoEntities.stream().toList()));
+    @Scheduled(cron = "0 0 3 * * *")
+    public void remocaoManutencoesAntigas(){
+        List<ManutencaoEntity> manutencaoEntities = manutencaoRepository.obterDataManutencao(LocalDate.now(), LocalDate.now().minusYears(1));
+        manutencaoRepository.deleteAll(manutencaoEntities);
     }
-
 
     public void imprimirMensagem (ManutencaoDTO manutencaoDTO) {
         String data = manutencaoDTO.getDataManutencao().format(formatter);
         String placa = manutencaoDTO.getPlacaCarro();
-        String id = manutencaoDTO.getIdManutencao();
         log.info("Uma nova manutenção foi adicionada. Veículo de placa: " + placa + " Data que foi adicionado: "
                     + data + ".");
     }
