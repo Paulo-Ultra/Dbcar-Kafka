@@ -24,6 +24,7 @@ import java.util.List;
 public class ConsumidorService {
 
     private final ObjectMapper objectMapper;
+
     private final ManutencaoRepository manutencaoRepository;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -78,11 +79,9 @@ public class ConsumidorService {
         log.info(String.valueOf(manutencaoEntities.stream().toList()));
     }
 
-
     public void imprimirMensagem (ManutencaoDTO manutencaoDTO) {
         String data = manutencaoDTO.getDataManutencao().format(formatter);
         String placa = manutencaoDTO.getPlacaCarro();
-        String id = manutencaoDTO.getIdManutencao();
         log.info("Uma nova manutenção foi adicionada. Veículo de placa: " + placa + " Data que foi adicionado: "
                     + data + ".");
     }
